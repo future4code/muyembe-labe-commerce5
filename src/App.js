@@ -2,21 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import Produto from './componentes/Produto'
 import astronauta from './img/astronauta.png'
-import camisa1 from './img/camisa1.png'
-import camisa2 from './img/camisa2.png'
-import camisa3 from './img/camisa3.png'
-import camisa4 from './img/camisa4.png'
-import camisa5 from './img/camisa5.png'
-import camisa6 from './img/camisa6.png'
-import camisa7 from './img/camisa7.png'
-import camisa8 from './img/camisa8.png'
-import camisa9 from './img/camisa9.png'
-import camisaF1 from './img/camisaF1.png'
-import camisaF2 from './img/camisaF2.png'
-import camisaF3 from './img/camisaF3.png'
-import camisaF4 from './img/camisaF4.png'
-import camisaF5 from './img/camisaF5.png'
-import camisaF6 from './img/camisaF6.png'
 import triangulo from './img/triangulo.PNG'
 import subir from './img/subir.PNG'
 
@@ -115,26 +100,11 @@ function App() {
         <div><Imghome src={astronauta}/></div>
       </Banner>
 
-      <Tituloprodutos id="feminino">Produtos</Tituloprodutos>
+      <Tituloprodutos id="masculino">Produtos</Tituloprodutos>
       <ListaDeProdutos>
         
-        <Produto
-          tituloProduto={"camisa1"}
-          produtoCamisa={camisa1}
-          precoProduto={"R$ 59,90"}
-        />
+        <Produto/>
 
-        <Produto
-          tituloProduto={"camisa2"}
-          produtoCamisa={camisa2}
-          precoProduto={"R$ 59,90"}
-        />
-
-        <Produto 
-          tituloProduto={"camisa3"}
-          produtoCamisa={camisa9}
-          precoProduto={"R$ 59,90"}
-        />
       </ListaDeProdutos>
       <a href="#voltarAotopo"><Subir src={subir}/></a>
       <Rodape>
