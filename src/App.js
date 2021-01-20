@@ -1,34 +1,55 @@
 import React from 'react'
 import styled from 'styled-components'
-import Produto from './componentes/Produto'
-import astronauta from './img/astronauta.png'
-import lupa from './img/lupa.png'
-import astrodev from './img/astrodev.png'
-import triangulo from './img/triangulo.PNG'
-import subir from './img/subir.PNG'
-import camisa1 from './img/camisa1.png'
-import camisa2 from './img/camisa2.png'
-import camisa3 from './img/camisa3.png'
-import camisa4 from './img/camisa4.png'
-import camisa5 from './img/camisa5.png'
-import camisa6 from './img/camisa6.png'
-import camisa7 from './img/camisa7.png'
-import camisa8 from './img/camisa8.png'
-import camisa9 from './img/camisa9.png'
-import camisaF1 from './img/camisaF1.png'
-import camisaF2 from './img/camisaF2.png'
-import camisaF3 from './img/camisaF3.png'
-import camisaF4 from './img/camisaF4.png'
-import camisaF5 from './img/camisaF5.png'
-import camisaF6 from './img/camisaF6.png'
+
+import astronauta from './imagens/astronauta.png'
+// import lupa from './imagens/lupa.png'
+import astrodev from "./imagens/astrodev.png"
+import triangulo from './imagens/triangulo.png'
+import subir from './imagens/subir.png'
+import camisa1 from './imagens/camisa1.png'
+import camisa2 from './imagens/camisa2.png'
+import camisa3 from './imagens/camisa3.png'
+import camisa4 from './imagens/camisa4.png'
+import camisa5 from './imagens/camisa5.png'
+import camisa6 from './imagens/camisa6.png'
+import camisa7 from './imagens/camisa7.png'
+import camisa8 from './imagens/camisa8.png'
+import camisa9 from './imagens/camisa9.png'
+import camisaF1 from './imagens/camisaF1.png'
+import camisaF2 from './imagens/camisaF2.png'
+import camisaF3 from './imagens/camisaF3.png'
+import camisaF4 from './imagens/camisaF4.png'
+import camisaF5 from './imagens/camisaF5.png'
+import camisaF6 from './imagens/camisaF6.png'
+import Produto from './components/Produto'
+import { IconeComContador } from './components/IconeComContador/IconeComContador'
+import iconeCarrinhoCompras from './imagens/shopping-cart.png'
+import CarrinhoDeCompras from './components/CarrinhoDeCompras/CarrinhoDeCompras'
 
 const Principal = styled.div`
   margin: 0;
   padding: 0;
   background-color: #0e0d09;
   position:relative;
-`
 
+  display: flex;
+  
+  
+`
+const DivisaoPaginaPrincipal = styled.div`
+  
+`
+const Cabecalho = styled.div`
+  height: 08vh;
+  
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+`
+const DivisaoCarrinhoDeCompras = styled.div`
+  height: 100%;
+`
 const Titulo = styled.header`
   color: #A901DB;
   font-family: 'Courier New', Courier, monospace;
@@ -45,15 +66,45 @@ const Menu = styled.main`
 `
 
 const Blocopesquisa = styled.form`
-   margin-top:500px;
-   margin-left:200px;
+   display: flex;
+   justify-content: space-around;
 `
+const DivPesquisa = styled.div`
+  border: 1px solid white;
+  padding: 16px;
+  box-sizing: border-box;
+  border-radius: 8px;
+ 
+`
+const DivisaoCategoria = styled.div`
+  border: 1px solid white;
+  padding: 16px;
+  box-sizing: border-box;
+  border-radius: 8px;
+`
+const BotaoCategoria = styled.button`
+  background-color: #16A182;
+  color:white;
+  border-style: none;
+  border: solid green 1px;
+  border-radius:5px;
+  &:hover{
+    font-weight: bold;
+  }
+  padding: 8px;
 
+  margin: 0 16px;
+`
+const LabelPesquisa = styled.label`
+  margin-right: 16px;
+`
 const Inputpesquisa = styled.input`
   border:solid 1px #0080FF;
   border-radius:5px;
   box-shadow: 0px 5px 10px #819FF7;
   color:green; 
+
+  height: 24px;
 `
 
 const BotaoPesquisar = styled.input`
@@ -65,9 +116,22 @@ const BotaoPesquisar = styled.input`
   &:hover{
     box-shadow: 0px 5px 10px #81F7D8;
   }
+  width: 64px;
+  padding: 8px;
 `
-const Lupa = styled.img`
-  width:10px;
+const DivFiltro = styled.div`
+  border: 1px solid white;
+  padding: 16px;
+  box-sizing: border-box;
+  border-radius: 8px;
+`
+
+const SelectFiltro = styled.select`
+  height: 24px;
+`
+
+const OptionFiltro = styled.option`
+  
 `
 
 const Lista = styled.li`
@@ -102,8 +166,12 @@ const ListaDeProdutos = styled.div`
   display:flex;
   flex-wrap:wrap;
   flex-direction:row;
+  justify-content: center;
 `
-
+const MensagemNaoEncontrado = styled.p`
+  color: white;
+  font-size: 32px;
+`
 
 const Tituloprodutos = styled.h1`
   color: #A901DB;
@@ -135,488 +203,471 @@ const Direciona = styled.button`
 const Astrodev = styled.img`
   width:50px;
 `
+const DiviCarrinhoDeCompras = styled.div`
+  margin-right: 16px;
+`
+
 
 
 class App extends React.Component {
   state = {
-    todosOsProdutos:[
+    produtos:[
         {
             fotoProduto:camisa1,
             tituloProduto:"Hexagono Laranja",
-            precoProduto:"R$ 59,90",
+            precoProduto: 35.00,
             tipo:"masculino"
         },
         {
             fotoProduto:camisa2,
             tituloProduto:"Foguete",
-            precoProduto:"R$ 59,90",
+            precoProduto: 40.00,
             tipo:"masculino"
         },
         {
             fotoProduto:camisa3,
             tituloProduto:"Dominador",
-            precoProduto:"R$ 59,90",
+            precoProduto: 37.00,
             tipo:"masculino"
         },
         {
             fotoProduto:camisa4,
             tituloProduto:"Wakanda",
-            precoProduto:"R$ 59,90",
+            precoProduto: 32.00,
             tipo:"masculino"
         },
         {
             fotoProduto:camisa5,
             tituloProduto:"Astro Music",
-            precoProduto:"R$ 59,90",
+            precoProduto: 38.00,
             tipo:"masculino"
         },
         {
             fotoProduto:camisa6,
             tituloProduto:"Descansando",
-            precoProduto:"R$ 59,90",
+            precoProduto: 37.00,
             tipo:"masculino"
         },
         {
             fotoProduto:camisa7,
             tituloProduto:"Bolhas",
-            precoProduto:"R$ 59,90",
+            precoProduto: 39.00,
             tipo:"masculino"
         },
         {
             fotoProduto:camisa8,
             tituloProduto:"Astrodev",
-            precoProduto:"R$ 59,90",
+            precoProduto: 41.00,
             tipo:"masculino"
         },
         {
             fotoProduto:camisa9,
             tituloProduto:"Buraco Negro",
-            precoProduto:"R$ 59,90",
+            precoProduto: 39.00,
             tipo:"masculino"
         },
         {
             fotoProduto:camisaF1,
             tituloProduto:"Foguete Feminina",
-            precoProduto:"R$ 59,90",
+            precoProduto: 31.00,
             tipo:"feminino"
         },
         {
             fotoProduto:camisaF2,
             tituloProduto:"Dominadora",
-            precoProduto:"R$ 59,90",
+            precoProduto: 30.00,
             tipo:"feminino"
         },
         {
             fotoProduto:camisaF3,
             tituloProduto:"Wakanda Feminina",
-            precoProduto:"R$ 59,90",
+            precoProduto: 32.00,
             tipo:"feminino"
         },
         {
             fotoProduto:camisaF4,
             tituloProduto:"Music",
-            precoProduto:"R$ 59,90",
+            precoProduto: 37.00,
             tipo:"feminino"
         },
         {
             fotoProduto:camisaF5,
             tituloProduto:"Descansando Feminina",
-            precoProduto:"R$ 59,90",
+            precoProduto: 31.00,
             tipo:"feminino"
         },
         {
             fotoProduto:camisaF6,
             tituloProduto:"Bolhas Feminina",
-            precoProduto:"R$ 59,90",
+            precoProduto: 33.00,
             tipo:"feminino"
         }
     ],
-    produtosAtual:[
-      {
-        fotoProduto:camisa1,
-        tituloProduto:"Hexagono Laranja",
-        precoProduto:"R$ 59,90",
-        tipo:"masculino"
-    },
-    {
-        fotoProduto:camisa2,
-        tituloProduto:"Foguete",
-        precoProduto:"R$ 59,90",
-        tipo:"masculino"
-    },
-    {
-        fotoProduto:camisa3,
-        tituloProduto:"Dominador",
-        precoProduto:"R$ 59,90",
-        tipo:"masculino"
-    },
-    {
-        fotoProduto:camisa4,
-        tituloProduto:"Wakanda",
-        precoProduto:"R$ 59,90",
-        tipo:"masculino"
-    },
-    {
-        fotoProduto:camisa5,
-        tituloProduto:"Astro Music",
-        precoProduto:"R$ 59,90",
-        tipo:"masculino"
-    },
-    {
-        fotoProduto:camisa6,
-        tituloProduto:"Descansando",
-        precoProduto:"R$ 59,90",
-        tipo:"masculino"
-    },
-    {
-        fotoProduto:camisa7,
-        tituloProduto:"Bolhas",
-        precoProduto:"R$ 59,90",
-        tipo:"masculino"
-    },
-    {
-        fotoProduto:camisa8,
-        tituloProduto:"Astrodev",
-        precoProduto:"R$ 59,90",
-        tipo:"masculino"
-    },
-    {
-        fotoProduto:camisa9,
-        tituloProduto:"Buraco Negro",
-        precoProduto:"R$ 59,90",
-        tipo:"masculino"
-    },
-    {
-        fotoProduto:camisaF1,
-        tituloProduto:"Foguete Feminina",
-        precoProduto:"R$ 59,90",
-        tipo:"feminino"
-    },
-    {
-        fotoProduto:camisaF2,
-        tituloProduto:"Dominadora",
-        precoProduto:"R$ 59,90",
-        tipo:"feminino"
-    },
-    {
-        fotoProduto:camisaF3,
-        tituloProduto:"Wakanda Feminina",
-        precoProduto:"R$ 59,90",
-        tipo:"feminino"
-    },
-    {
-        fotoProduto:camisaF4,
-        tituloProduto:"Music",
-        precoProduto:"R$ 59,90",
-        tipo:"feminino"
-    },
-    {
-        fotoProduto:camisaF5,
-        tituloProduto:"Descansando Feminina",
-        precoProduto:"R$ 59,90",
-        tipo:"feminino"
-    },
-    {
-        fotoProduto:camisaF6,
-        tituloProduto:"Bolhas Feminina",
-        precoProduto:"R$ 59,90",
-        tipo:"feminino"
-    }
-    ],
-    inputPesquisa:"",
-    adicionadoAoCarrinho: [
-      {
-        fotoProduto:"",
-        tituloProduto:"",
-        precoProduto:"",
-        tipo:""
-    },
-    ]
+
+    carrinhoCompras: [],
+    compra: false,
+    valorTotalCarrinhoCompras: 0,
+
+    categoriaAtual: "todos",
+    listaCategoriaMasculino: [],
+    listaCategoriaFeminino: [],
+
+    inputPesquisa: "",
+
+    listaPesquisa: [], 
+    pesquisa: false,
+
+    selectFiltro: "selecione",
+    filtro: false
+    
   }
 
   onClickTodos = () => {
-    this.setState({produtosAtual:[
-      {
-        fotoProduto:camisa1,
-        tituloProduto:"Astronauta",
-        precoProduto:"R$ 59,90",
-        tipo:"masculino"
-    },
-    {
-        fotoProduto:camisa2,
-        tituloProduto:"Astronauta",
-        precoProduto:"R$ 59,90",
-        tipo:"masculino"
-    },
-    {
-        fotoProduto:camisa3,
-        tituloProduto:"Astronauta",
-        precoProduto:"R$ 59,90",
-        tipo:"masculino"
-    },
-    {
-        fotoProduto:camisa4,
-        tituloProduto:"Astronauta",
-        precoProduto:"R$ 59,90",
-        tipo:"masculino"
-    },
-    {
-        fotoProduto:camisa5,
-        tituloProduto:"Astronauta",
-        precoProduto:"R$ 59,90",
-        tipo:"masculino"
-    },
-    {
-        fotoProduto:camisa6,
-        tituloProduto:"Astronauta",
-        precoProduto:"R$ 59,90",
-        tipo:"masculino"
-    },
-    {
-        fotoProduto:camisa7,
-        tituloProduto:"Astronauta",
-        precoProduto:"R$ 59,90",
-        tipo:"masculino"
-    },
-    {
-        fotoProduto:camisa8,
-        tituloProduto:"Astronauta",
-        precoProduto:"R$ 59,90",
-        tipo:"masculino"
-    },
-    {
-        fotoProduto:camisa9,
-        tituloProduto:"Astronauta",
-        precoProduto:"R$ 59,90",
-        tipo:"masculino"
-    },
-    {
-      fotoProduto:camisaF1,
-      tituloProduto:"Astronauta",
-      precoProduto:"R$ 59,90",
-      tipo:"feminino"
-    },
-    {
-      fotoProduto:camisaF2,
-      tituloProduto:"Astronauta",
-      precoProduto:"R$ 59,90",
-      tipo:"feminino"
-  },
-  {
-      fotoProduto:camisaF3,
-      tituloProduto:"Astronauta",
-      precoProduto:"R$ 59,90",
-      tipo:"feminino"
-  },
-  {
-      fotoProduto:camisaF4,
-      tituloProduto:"Astronauta",
-      precoProduto:"R$ 59,90",
-      tipo:"feminino"
-  },
-  {
-      fotoProduto:camisaF5,
-      tituloProduto:"Astronauta",
-      precoProduto:"R$ 59,90",
-      tipo:"feminino"
-  },
-  {
-      fotoProduto:camisaF6,
-      tituloProduto:"Astronauta",
-      precoProduto:"R$ 59,90",
-      tipo:"feminino"
-  }
-    ]})
+    this.setState({categoriaAtual: "todos", pesquisa: false, filtro: false, selectFiltro: "selecione" })
   }
   
   onClickFeminino = () => {
-    this.setState({produtosAtual:[
-      {
-        fotoProduto:camisaF1,
-        tituloProduto:"Astronauta",
-        precoProduto:"R$ 59,90",
-        tipo:"feminino"
-    },
-    {
-        fotoProduto:camisaF2,
-        tituloProduto:"Astronauta",
-        precoProduto:"R$ 59,90",
-        tipo:"feminino"
-    },
-    {
-        fotoProduto:camisaF3,
-        tituloProduto:"Astronauta",
-        precoProduto:"R$ 59,90",
-        tipo:"feminino"
-    },
-    {
-        fotoProduto:camisaF4,
-        tituloProduto:"Astronauta",
-        precoProduto:"R$ 59,90",
-        tipo:"feminino"
-    },
-    {
-        fotoProduto:camisaF5,
-        tituloProduto:"Astronauta",
-        precoProduto:"R$ 59,90",
-        tipo:"feminino"
-    },
-    {
-        fotoProduto:camisaF6,
-        tituloProduto:"Astronauta",
-        precoProduto:"R$ 59,90",
-        tipo:"feminino"
-    }
-    ]})
+    this.setState({categoriaAtual: "feminino", pesquisa: false, filtro: false, selectFiltro: "selecione"})
   }
   
   onClickMasculino = () => {
-    this.setState({produtosAtual:[
-      {
-        fotoProduto:camisa1,
-        tituloProduto:"Astronauta",
-        precoProduto:"R$ 59,90",
-        tipo:"masculino"
-    },
-    {
-        fotoProduto:camisa2,
-        tituloProduto:"Astronauta",
-        precoProduto:"R$ 59,90",
-        tipo:"masculino"
-    },
-    {
-        fotoProduto:camisa3,
-        tituloProduto:"Astronauta",
-        precoProduto:"R$ 59,90",
-        tipo:"masculino"
-    },
-    {
-        fotoProduto:camisa4,
-        tituloProduto:"Astronauta",
-        precoProduto:"R$ 59,90",
-        tipo:"masculino"
-    },
-    {
-        fotoProduto:camisa5,
-        tituloProduto:"Astronauta",
-        precoProduto:"R$ 59,90",
-        tipo:"masculino"
-    },
-    {
-        fotoProduto:camisa6,
-        tituloProduto:"Astronauta",
-        precoProduto:"R$ 59,90",
-        tipo:"masculino"
-    },
-    {
-        fotoProduto:camisa7,
-        tituloProduto:"Astronauta",
-        precoProduto:"R$ 59,90",
-        tipo:"masculino"
-    },
-    {
-        fotoProduto:camisa8,
-        tituloProduto:"Astronauta",
-        precoProduto:"R$ 59,90",
-        tipo:"masculino"
-    },
-    {
-        fotoProduto:camisa9,
-        tituloProduto:"Astronauta",
-        precoProduto:"R$ 59,90",
-        tipo:"masculino"
-    }
-    ]})
+    this.setState({categoriaAtual: "masculino", pesquisa: false, filtro: false, selectFiltro: "selecione"})
   }
 
   onChangePesq = (event) => {
-    this.setState({inputPesquisa:event.target.value})
+    this.setState({ inputPesquisa: event.target.value })
   }
 
-  pesquisa = (event) => {
-    event.preventDefault()
-    const pesquisaProduto = this.state.todosOsProdutos.map((produto) => {
-      if(produto.tituloProduto === this.state.inputPesquisa){
-          this.setState({produtosAtual:[
-              {
-                fotoProduto: produto.fotoProduto,
-                tituloProduto: produto.tituloProduto,
-                precoProduto: produto.precoProduto
-              }
-          ]})  
+  pesquisa = (valorInputPesquisa) => {
+    this.setState({ pesquisa: true })
+
+    const valorInputPesquisaMinusculo = valorInputPesquisa.toLowerCase()
+    
+    const retornoPesquisa = this.state.produtos.filter((produto) => {
+      let tituloProdutoMinusculo = produto.tituloProduto.toLowerCase()
+      
+      if(tituloProdutoMinusculo === valorInputPesquisaMinusculo) {
+        return true
+      } 
+      
+    })
+
+    
+    this.setState({ listaPesquisa: retornoPesquisa })
+  }
+
+  onClickCarrinhoDeCompras = () => {
+    this.setState({ compra: !this.state.compra})
+   
+  }
+  
+  noCarrinho = (nomeProduto) => {
+    
+    const novaCompra = this.state.produtos.filter((produto) => {
+      if(produto.tituloProduto === nomeProduto) {
+        return true
       }
     })
+    
+    const compra = {
+      fotoProduto: novaCompra[0].fotoProduto,
+      tituloProduto: novaCompra[0].tituloProduto,
+      precoProduto: novaCompra[0].precoProduto,
+      tipo: novaCompra[0].tipo
+    }
+
+    
+
+    const novasCompras = [compra, ...this.state.carrinhoCompras]
+    this.setState({ carrinhoCompras:  novasCompras})
+
+  }
+  
+  onClickExcluirProduto = (nome) => {
+    const novaListaCarrinhoDeCompras = this.state.carrinhoCompras.filter((item) => {
+      return item.tituloProduto !== nome
+    })
+
+    this.setState({ carrinhoCompras: novaListaCarrinhoDeCompras })
   }
 
-  noCarrinho = (addCar) => {
-    const adicinando = this.state.todosOsProdutos.map((produto) => {
-      if (produto.tituloProduto === addCar){
-        const addCarrinho = {
-          fotoProduto: produto.fotoProduto,
-          tituloProduto: produto.tituloProduto,
-          precoProduto: produto.precoProduto
-        }
+  calculaValorTotal = () => {
+    let valor = 0
+    this.state.carrinhoCompras.forEach((item) => {
+      valor = valor + item.precoProduto
+    })
+    return valor
+  }
 
-        const adicionandoProdutos = [addCarrinho, ...this.state.adicionadoAoCarrinho]
-        this.setState({adicionadoAoCarrinho:adicionandoProdutos})
-      }
-    })  
+  onChangeSelectFiltro = (event) => {
+    this.setState({ selectFiltro: event.target.value, filtro: true})
+  }
+
+  // onClickFiltrar = () => {
+  //   this.setState({filtro: true})
+  // }
+
+  
+  // noCarrinho = (addCar) => {
+  //   const adicinando = this.state.todosOsProdutos.map((produto) => {
+  //     if (produto.tituloProduto === addCar){
+  //       const addCarrinho = {
+  //         fotoProduto: produto.fotoProduto,
+  //         tituloProduto: produto.tituloProduto,
+  //         precoProduto: produto.precoProduto
+  //       }
+
+  //       const adicionandoProdutos = [addCarrinho, ...this.state.adicionadoAoCarrinho]
+  //       this.setState({adicionadoAoCarrinho:adicionandoProdutos})
+  //     }
+  //   })  
       
-    console.log(this.state.adicionadoAoCarrinho)
-    alert("Adicionado, verifique no console.log")
-  }
+  //   console.log(this.state.adicionadoAoCarrinho)
+  //   alert("Adicionado, verifique no console.log")
+  // }
 
 
   render(){
+
     document.title = "Labecommerce"
-    const relacaoProdutos = this.state.produtosAtual.map((produto) => {
-      return (
-        <Produto
-          fotoProduto = {produto.fotoProduto}
-          tituloProduto = {produto.tituloProduto}
-          precoProduto = {produto.precoProduto}
-          colocaNoCarrinho ={() => this.noCarrinho(produto.tituloProduto)}
-        />
-      )
-    })
+
+
+    /* ====== EXIBIR TODOS OS PRODUTOS OU MASCULINO OU FEMININO: ====== */
+    let relacaoProdutos
+
+    // todos os produtos: 
+    if(this.state.categoriaAtual === "todos") {
+      relacaoProdutos = this.state.produtos.map((produto) => {
+        return (
+          <Produto
+            key={produto.tituloProduto}
+            fotoProduto = {produto.fotoProduto}
+            tituloProduto = {produto.tituloProduto}
+            precoProduto = {produto.precoProduto}
+            colocaNoCarrinho ={() => this.noCarrinho(produto.tituloProduto)}
+          />
+        )
+      })
+    }
+    // masculinos: 
+    if(this.state.categoriaAtual === "masculino") {
+      relacaoProdutos = this.state.produtos.map((produto) => {
+        if(produto.tipo === "masculino") {
+          return (
+            <Produto
+              key={produto.tituloProduto}
+              fotoProduto = {produto.fotoProduto}
+              tituloProduto = {produto.tituloProduto}
+              precoProduto = {produto.precoProduto}
+              colocaNoCarrinho ={() => this.noCarrinho(produto.tituloProduto)}
+            />
+          )
+        }
+      })
+      
+      
+
+    }
+    // femininos:
+    if(this.state.categoriaAtual === "feminino") {
+      relacaoProdutos = this.state.produtos.map((produto) => {
+        if(produto.tipo === "feminino") {
+          return (
+            <Produto
+              key={produto.tituloProduto}
+              fotoProduto = {produto.fotoProduto}
+              tituloProduto = {produto.tituloProduto}
+              precoProduto = {produto.precoProduto}
+              colocaNoCarrinho ={() => this.noCarrinho(produto.tituloProduto)}
+            />
+          )
+        }
+      })
+
+    }
+
+    /* ====== EXIBIR PESQUISA PELO NOME DO DO PRODUTO: ====== */
+    if(this.state.pesquisa) {
+    
+      if(this.state.listaPesquisa !== []) {
+        relacaoProdutos = this.state.listaPesquisa.map((produto) => {
+          return (
+            <Produto
+                key={produto.tituloProduto}
+                fotoProduto = {produto.fotoProduto}
+                tituloProduto = {produto.tituloProduto}
+                precoProduto = {produto.precoProduto}
+                colocaNoCarrinho ={() => this.noCarrinho(produto.tituloProduto)}
+              />
+          )
+        })
+      }
+
+      // Caso pesquisa não retorne nenhum resultado:
+      if(this.state.listaPesquisa.length === 0) {
+        relacaoProdutos = <MensagemNaoEncontrado>Infelizmente, produto {this.state.inputPesquisa} não foi encontrado.</MensagemNaoEncontrado>
+      }
+      
+    }
+    
+    /* ====== CARRINHO DE COMPRAS: ====== */
+    let componenteCarrinhoDeCompras
+    if(this.state.compra) {  
+      componenteCarrinhoDeCompras = <CarrinhoDeCompras 
+        produtos = {this.state.carrinhoCompras}
+        excluirProduto = {this.onClickExcluirProduto}
+        valorTotal = {this.calculaValorTotal()}
+      />
+      
+    }
+
+
+    /* ====== FILTRO MAIOR E MENOR VALOR: ====== */
+    
+    let listaAtualParaComparacao
+    if(this.state.filtro) {
+      
+      switch (this.state.categoriaAtual) {
+        case "todos" :
+          listaAtualParaComparacao = this.state.produtos
+          break
+        case "masculino" :
+          listaAtualParaComparacao = this.state.produtos.filter((produto) => {
+            if(produto.tipo === "masculino") {
+              return true
+            }
+          })
+          break
+        case "feminino" :
+          listaAtualParaComparacao = this.state.produtos.filter((produto) => {
+            if(produto.tipo === "feminino") {
+              return true
+            }
+          })
+          break
+      }
+      // if(this.state.categoriaAtual === "todos") {
+      //   listaAtualParaComparacao = this.state.produtos
+      // }
+      if(this.state.selectFiltro === "menor") {
+        // listaMenorParaMaior = this.state.produtos
+        listaAtualParaComparacao.sort(function(a,b) {
+          return a.precoProduto - b.precoProduto
+        })
+        relacaoProdutos = listaAtualParaComparacao.map((produto) => {
+          return (
+            <Produto
+                key={produto.tituloProduto}
+                fotoProduto = {produto.fotoProduto}
+                tituloProduto = {produto.tituloProduto}
+                precoProduto = {produto.precoProduto}
+                colocaNoCarrinho ={() => this.noCarrinho(produto.tituloProduto)}
+              />
+          )
+        })
+      }
+      
+      if(this.state.selectFiltro === "maior") {
+        // listaMaiorParaMenor = this.state.produtos
+        listaAtualParaComparacao.sort(function(a,b) {
+          return b.precoProduto - a.precoProduto
+        })
+          relacaoProdutos = listaAtualParaComparacao.map((produto) => {
+            return (
+              <Produto
+                key={produto.tituloProduto}
+                fotoProduto = {produto.fotoProduto}
+                tituloProduto = {produto.tituloProduto}
+                precoProduto = {produto.precoProduto}
+                colocaNoCarrinho ={() => this.noCarrinho(produto.tituloProduto)}
+              />
+            )
+          })
+      }
+    }
+    
+
     return (
+      
       <Principal>
-        <Titulo id="voltarAotopo">Labecommerce</Titulo>
-        <Banner>
-          <Triangulo src={triangulo}/>
-          <Menu>
-            <ul>
-              <Lista><Referencia href="#produtos"><Direciona onClick={this.onClickTodos}>Home</Direciona></Referencia></Lista>
-              <Lista><Referencia href="#produtos"><Direciona onClick={this.onClickFeminino}>Feminino</Direciona></Referencia></Lista>
-              <Lista><Referencia href="#produtos"><Direciona onClick={this.onClickMasculino}>Masculino</Direciona></Referencia></Lista>
-              <Lista><Referencia href="#astro">Astrodev</Referencia></Lista>
-            </ul>
-          </Menu>
-          <div><Imghome src={astronauta}/></div>
-          
-          <Blocopesquisa onSubmit={this.pesquisa}>
-          
-            <label>
-              <Inputpesquisa type="text" value={this.state.inputPesq} onChange={this.onChangePesq} placeholder="pesquisar"/>
-            </label>
+
+        <DivisaoPaginaPrincipal>
+          <Cabecalho>
+            <Titulo id="voltarAotopo">Labecommerce</Titulo>
+
+            <DivisaoCarrinhoDeCompras>
+              <IconeComContador
+                icone={iconeCarrinhoCompras}
+                onClickIcone= {this.onClickCarrinhoDeCompras}
+                valorContador={this.state.carrinhoCompras.length}
+              />
+            </DivisaoCarrinhoDeCompras>
             
-            <BotaoPesquisar type="submit" value="Pesquisar" />
+          </Cabecalho>
           
+          
+
+          <Banner>
+            <Triangulo src={triangulo}/>
+            <Menu>
+              <ul>
+                <Lista><Referencia href="#produtos"><Direciona onClick={this.onClickTodos}>Home</Direciona></Referencia></Lista>
+                {/* <Lista><Referencia href="#produtos"><Direciona onClick={this.onClickFeminino}>Feminino</Direciona></Referencia></Lista>
+                <Lista><Referencia href="#produtos"><Direciona onClick={this.onClickMasculino}>Masculino</Direciona></Referencia></Lista> */}
+                <Lista><Referencia href="#astro">Astrodev</Referencia></Lista>
+              </ul>
+            </Menu>
+            <div><Imghome src={astronauta}/></div>
+            
+            
+            
+          </Banner>
+    
+          <Tituloprodutos id="produtos">Produtos</Tituloprodutos>
+
+          <Blocopesquisa >
+            
+            <DivPesquisa>
+              <LabelPesquisa>
+                <Inputpesquisa type="text" value={this.state.inputPesquisa} onChange={this.onChangePesq} placeholder="Digite o nome do produto"/>
+              </LabelPesquisa>
+              
+              <BotaoPesquisar value="Pesquisar" onClick={() => this.pesquisa(this.state.inputPesquisa)} />
+
+            </DivPesquisa>
+
+            <DivisaoCategoria>
+              <BotaoCategoria onClick={this.onClickFeminino}>Feminino</BotaoCategoria>
+              <BotaoCategoria onClick={this.onClickMasculino}>Masculino</BotaoCategoria>
+            </DivisaoCategoria>
+            
+            <DivFiltro>
+              <SelectFiltro onChange={this.onChangeSelectFiltro} value={this.state.selectFiltro}>
+                <OptionFiltro value="selecione">Ordem de exibição:</OptionFiltro>
+                <OptionFiltro value="menor">Menor preço para Maior preço</OptionFiltro>
+                <OptionFiltro value="maior">Maior preço para Menor preço</OptionFiltro>
+              </SelectFiltro>
+
+            </DivFiltro>
+            
+            
           </Blocopesquisa>
-          
-        </Banner>
-  
-        <Tituloprodutos id="produtos">Produtos</Tituloprodutos>
 
-        <ListaDeProdutos>{relacaoProdutos}</ListaDeProdutos>
+          <ListaDeProdutos>{relacaoProdutos}</ListaDeProdutos>
 
-        <a href="#voltarAotopo"><Subir src={subir}/></a>
+          <a href="#voltarAotopo"><Subir src={subir}/></a>
 
-        <Rodape id="astro">
-          <h3>Labecommerce faz parte da corporação Astrodev<Astrodev src={astrodev}/></h3>
-          <p></p>
-        </Rodape>
+          <Rodape id="astro">
+            <h3>Labecommerce faz parte da corporação Astrodev<Astrodev src={astrodev}/></h3>
+            <p></p>
+          </Rodape>
 
+        </DivisaoPaginaPrincipal>
+
+        <DiviCarrinhoDeCompras>
+          { componenteCarrinhoDeCompras }
+        </DiviCarrinhoDeCompras>
+        
       </Principal>
   
     ) 
