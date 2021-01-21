@@ -37,6 +37,10 @@ const NomeProduto = styled.h3`
     color:white;
     padding-left:25px;
 `
+const Addsemcor = styled.a`
+  text-decoration:none; 
+  color: inherit; 
+`
 
 class Produto extends React.Component { 
     state = {
@@ -51,7 +55,7 @@ class Produto extends React.Component {
                     <Imgproduto src={this.props.fotoProduto} alt="imagem do produto"/>
                     <NomeProduto>{this.props.tituloProduto}</NomeProduto>
                     <Preco>R$ {this.props.precoProduto.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</Preco>
-                    <Add onClick={this.props.colocaNoCarrinho}>+</Add>
+                    <Add onClick={this.props.colocaNoCarrinho}><Addsemcor href="#carrinho">+</Addsemcor></Add>
                 </div>
             </Produtos>
         )

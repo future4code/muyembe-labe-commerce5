@@ -37,7 +37,7 @@ const Principal = styled.div`
   
 `
 const DivisaoPaginaPrincipal = styled.div`
-  
+  width: 100%;
 `
 const Cabecalho = styled.div`
   height: 08vh;
@@ -98,11 +98,12 @@ const BotaoCategoria = styled.button`
 const LabelPesquisa = styled.label`
   margin-right: 16px;
 `
+
 const Inputpesquisa = styled.input`
   border:solid 1px #0080FF;
   border-radius:5px;
   box-shadow: 0px 5px 10px #819FF7;
-  color:green; 
+  color:"green"; 
 
   height: 24px;
 `
@@ -326,12 +327,14 @@ class App extends React.Component {
     this.setState({categoriaAtual: "todos", pesquisa: false, filtro: false, selectFiltro: "selecione" })
   }
   
-  onClickFeminino = () => {
+  onClickFeminino = (event) => {
     this.setState({categoriaAtual: "feminino", pesquisa: false, filtro: false, selectFiltro: "selecione"})
+    event.preventDefault()
   }
   
-  onClickMasculino = () => {
+  onClickMasculino = (event) => {
     this.setState({categoriaAtual: "masculino", pesquisa: false, filtro: false, selectFiltro: "selecione"})
+    event.preventDefault()
   }
 
   onChangePesq = (event) => {
@@ -362,7 +365,7 @@ class App extends React.Component {
   }
   
   noCarrinho = (nomeProduto) => {
-    
+    this.setState({compra:true})
     const novaCompra = this.state.produtos.filter((produto) => {
       if(produto.tituloProduto === nomeProduto) {
         return true
@@ -589,7 +592,7 @@ class App extends React.Component {
 
     return (
       
-      <Principal>
+      <Principal id="carrinho">
 
         <DivisaoPaginaPrincipal>
           <Cabecalho>
@@ -632,7 +635,7 @@ class App extends React.Component {
                 <Inputpesquisa type="text" value={this.state.inputPesquisa} onChange={this.onChangePesq} placeholder="Digite o nome do produto"/>
               </LabelPesquisa>
               
-              <BotaoPesquisar value="Pesquisar" onClick={() => this.pesquisa(this.state.inputPesquisa)} />
+              <BotaoPesquisar type="submit" value="Pesquisar" onClick={() => this.pesquisa(this.state.inputPesquisa)} />
 
             </DivPesquisa>
 

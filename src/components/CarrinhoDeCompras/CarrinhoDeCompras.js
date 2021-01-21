@@ -6,6 +6,7 @@ const DivisaoCarrinhoCompras = styled.div`
     height: 15vh;
     width: 400px;
     
+
     display: flex;
     justify-content: space-between;
     align-content: center;
@@ -17,6 +18,9 @@ const DivisaoCarrinhoCompras = styled.div`
 
     border: 1px solid white;
     border-radius: 08px;
+
+    
+    
 `
 
 const Titulo = styled.h1`
@@ -31,12 +35,12 @@ const DivisaoImagemProduto = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-
-    
+   
 `
 
 const ImagemProduto = styled.img`
-    height: 80%;
+    height: 100%;
+    
 `
 
 const DivisaoTituloProduto = styled.div`
@@ -54,7 +58,8 @@ const PrecoProduto = styled.h5`
 
 `
 const DivisaoCompras = styled.div`
-    height: 100%;
+    height:400px;
+    overflow:auto; 
 `
 
 const DivisaoIconeExcluir = styled.div`
