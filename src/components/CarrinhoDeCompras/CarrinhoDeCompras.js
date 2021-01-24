@@ -81,6 +81,12 @@ const ValorTotal = styled.h6`
     text-align: center;
     font-size: 32px;
 `  
+const DivisaoQuantidade = styled.div`
+
+`
+const ValorQuantidade = styled.p`
+
+`
 
 class CarrinhoDeCompras extends React.Component {
 
@@ -99,18 +105,27 @@ class CarrinhoDeCompras extends React.Component {
         componenteCarrinhoDeCompras = this.props.produtos.map((item) => {
             return (
                 <DivisaoCarrinhoCompras key={item.tituloProduto}>
+
                     <DivisaoImagemProduto>
                         <ImagemProduto src={item.fotoProduto} alt={'Imagem do produto'}/>
                     </DivisaoImagemProduto>
+
                     <DivisaoTituloProduto>
                         <TituloProduto>{item.tituloProduto} </TituloProduto>
                     </DivisaoTituloProduto>
+
                     <DivisaoPrecoProduto>
                         <PrecoProduto>R$ {item.precoProduto.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</PrecoProduto>
                     </DivisaoPrecoProduto>
+
+                    <DivisaoQuantidade>
+                        <ValorQuantidade>{item.quantidade} </ValorQuantidade>
+                    </DivisaoQuantidade>
+
                     <DivisaoIconeExcluir>
                         <BotaoDeletarProduto src={botaoDeletarProduto} alt={'Imagem do icone excluir'} onClick={() => this.onClickExcluirProduto(item.tituloProduto)} />
                     </DivisaoIconeExcluir>
+
                 </DivisaoCarrinhoCompras>
 
             )

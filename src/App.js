@@ -363,9 +363,22 @@ class App extends React.Component {
     this.setState({ compra: !this.state.compra})
    
   }
+
+  verificaProdutoJaExiste = (novoProduto, listaAtualCarrinhoCompras) => {
+    console.log("novoProduto", novoProduto)
+    console.log("listaAtualCarrinhoCompras", listaAtualCarrinhoCompras)
+    const resposta = listaAtualCarrinhoCompras.filter((item) => {
+      if(item.tituloProduto === novoProduto.tituloProduto) {
+        return true
+      }
+      return false
+    })
+
+    return  resposta
+  }
   
   noCarrinho = (nomeProduto) => {
-    this.setState({compra:true})
+    // this.setState({compra:true})
     const novaCompra = this.state.produtos.filter((produto) => {
       if(produto.tituloProduto === nomeProduto) {
         return true
@@ -376,13 +389,33 @@ class App extends React.Component {
       fotoProduto: novaCompra[0].fotoProduto,
       tituloProduto: novaCompra[0].tituloProduto,
       precoProduto: novaCompra[0].precoProduto,
-      tipo: novaCompra[0].tipo
+      tipo: novaCompra[0].tipo,
+      quantidade: 1
+    }
+    console.log("compra", compra)
+
+    const produtoExistente = this.verificaProdutoJaExiste(compra, this.state.carrinhoCompras)
+    console.log("produtoExistente", produtoExistente)
+    if(produtoExistente.length !== 0) {
+      const novaListaProdutos = this.state.carrinhoCompras.map((produto) => {
+        if(produto.tituloProduto === compra.tituloProduto) {
+          const novaCompra = {
+            ...produto,
+            quantidade: produto.quantidade + 1,
+            precoProduto: produto.precoProduto + produto.precoProduto
+          }
+          return novaCompra
+        } else {
+          return produto
+        }
+      })
+      this.setState({carrinhoCompras: novaListaProdutos })
+    } else {
+      const novasCompras = [compra, ...this.state.carrinhoCompras]
+      this.setState({ carrinhoCompras:  novasCompras})
     }
 
     
-
-    const novasCompras = [compra, ...this.state.carrinhoCompras]
-    this.setState({ carrinhoCompras:  novasCompras})
 
   }
   
@@ -404,6 +437,14 @@ class App extends React.Component {
 
   onChangeSelectFiltro = (event) => {
     this.setState({ selectFiltro: event.target.value, filtro: true})
+  }
+
+  calculaItemsCarrinhoCompras = () => {
+    let produtosCarrinhoCompras = 0
+    this.state.carrinhoCompras.forEach((item) => {
+      produtosCarrinhoCompras = produtosCarrinhoCompras + item.quantidade
+    })
+    return produtosCarrinhoCompras
   }
 
   // onClickFiltrar = () => {
@@ -602,7 +643,7 @@ class App extends React.Component {
               <IconeComContador
                 icone={iconeCarrinhoCompras}
                 onClickIcone= {this.onClickCarrinhoDeCompras}
-                valorContador={this.state.carrinhoCompras.length}
+                valorContador={this.calculaItemsCarrinhoCompras()}
               />
             </DivisaoCarrinhoDeCompras>
             
