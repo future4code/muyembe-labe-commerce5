@@ -217,91 +217,106 @@ class App extends React.Component {
             fotoProduto:camisa1,
             tituloProduto:"Hexagono Laranja",
             precoProduto: 35.00,
-            tipo:"masculino"
+            tipo:"masculino",
+            id: 1
         },
         {
             fotoProduto:camisa2,
             tituloProduto:"Foguete",
             precoProduto: 40.00,
-            tipo:"masculino"
+            tipo:"masculino",
+            id: 2
         },
         {
             fotoProduto:camisa3,
             tituloProduto:"Dominador",
             precoProduto: 37.00,
-            tipo:"masculino"
+            tipo:"masculino",
+            id: 3
         },
         {
             fotoProduto:camisa4,
             tituloProduto:"Wakanda",
             precoProduto: 32.00,
-            tipo:"masculino"
+            tipo:"masculino",
+            id: 4
         },
         {
             fotoProduto:camisa5,
             tituloProduto:"Astro Music",
             precoProduto: 38.00,
-            tipo:"masculino"
+            tipo:"masculino",
+            id: 5
         },
         {
             fotoProduto:camisa6,
             tituloProduto:"Descansando",
             precoProduto: 37.00,
-            tipo:"masculino"
+            tipo:"masculino",
+            id: 6
         },
         {
             fotoProduto:camisa7,
             tituloProduto:"Bolhas",
             precoProduto: 39.00,
-            tipo:"masculino"
+            tipo:"masculino",
+            id: 7
         },
         {
             fotoProduto:camisa8,
             tituloProduto:"Astrodev",
             precoProduto: 41.00,
-            tipo:"masculino"
+            tipo:"masculino",
+            id: 8
         },
         {
             fotoProduto:camisa9,
             tituloProduto:"Buraco Negro",
             precoProduto: 39.00,
-            tipo:"masculino"
+            tipo:"masculino",
+            id: 9
         },
         {
             fotoProduto:camisaF1,
             tituloProduto:"Foguete Feminina",
             precoProduto: 31.00,
-            tipo:"feminino"
+            tipo:"feminino",
+            id: 10
         },
         {
             fotoProduto:camisaF2,
             tituloProduto:"Dominadora",
             precoProduto: 30.00,
-            tipo:"feminino"
+            tipo:"feminino",
+            id: 11
         },
         {
             fotoProduto:camisaF3,
             tituloProduto:"Wakanda Feminina",
             precoProduto: 32.00,
-            tipo:"feminino"
+            tipo:"feminino",
+            id: 12
         },
         {
             fotoProduto:camisaF4,
             tituloProduto:"Music",
             precoProduto: 37.00,
-            tipo:"feminino"
+            tipo:"feminino",
+            id: 13
         },
         {
             fotoProduto:camisaF5,
             tituloProduto:"Descansando Feminina",
             precoProduto: 31.00,
-            tipo:"feminino"
+            tipo:"feminino",
+            id: 14
         },
         {
             fotoProduto:camisaF6,
             tituloProduto:"Bolhas Feminina",
             precoProduto: 33.00,
-            tipo:"feminino"
+            tipo:"feminino",
+            id: 15
         }
     ],
 
@@ -365,8 +380,7 @@ class App extends React.Component {
   }
 
   verificaProdutoJaExiste = (novoProduto, listaAtualCarrinhoCompras) => {
-    console.log("novoProduto", novoProduto)
-    console.log("listaAtualCarrinhoCompras", listaAtualCarrinhoCompras)
+    
     const resposta = listaAtualCarrinhoCompras.filter((item) => {
       if(item.tituloProduto === novoProduto.tituloProduto) {
         return true
@@ -390,7 +404,8 @@ class App extends React.Component {
       tituloProduto: novaCompra[0].tituloProduto,
       precoProduto: novaCompra[0].precoProduto,
       tipo: novaCompra[0].tipo,
-      quantidade: 1
+      quantidade: 1,
+      id: Date.now()
     }
     console.log("compra", compra)
 
@@ -447,6 +462,40 @@ class App extends React.Component {
     return produtosCarrinhoCompras
   }
 
+  // exibirCarrinhoDeCompras = () => {
+  //   console.log("caiu na funçcao exibirCarrinhoDeCompras")
+  //   let componenteCarrinhoDeCompras
+  //   if(this.state.carrinhoCompras.length !== 0) {  
+  //     componenteCarrinhoDeCompras = <CarrinhoDeCompras 
+  //       produtos = {this.state.carrinhoCompras}
+  //       excluirProduto = {this.onClickExcluirProduto}
+  //       valorTotal = {this.calculaValorTotal()}
+  //     />
+  //   } 
+
+  //   return componenteCarrinhoDeCompras
+  // }
+
+  // exibirCarrinhoDeCompras = () => {
+  //   let componenteCarrinhoDeCompras
+  //   if(this.state.carrinhoCompras.length !== 0) {  
+  //     componenteCarrinhoDeCompras = this.state.carrinhoCompras.map((item) => {
+  //       <CarrinhoDeCompras 
+  //         key={item.id}
+  //         fotoProduto = {item.fotoProduto}
+  //         tituloProduto = {item.tituloProduto}
+  //         precoProduto = {item.precoProduto.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
+  //         quantidade = {item.quantidade}
+  //         excluirProduto = {this.onClickExcluirProduto}
+  //         valorTotal = {this.calculaValorTotal()}
+  //       />
+  //     }) 
+        
+  //   }
+   
+  //   return componenteCarrinhoDeCompras
+  // }
+  
   // onClickFiltrar = () => {
   //   this.setState({filtro: true})
   // }
@@ -472,6 +521,7 @@ class App extends React.Component {
 
 
   render(){
+    console.log("lista carrinho de compras.", this.state.carrinhoCompras)
 
     document.title = "Labecommerce"
 
@@ -484,7 +534,7 @@ class App extends React.Component {
       relacaoProdutos = this.state.produtos.map((produto) => {
         return (
           <Produto
-            key={produto.tituloProduto}
+            key={produto.id}
             fotoProduto = {produto.fotoProduto}
             tituloProduto = {produto.tituloProduto}
             precoProduto = {produto.precoProduto}
@@ -499,7 +549,7 @@ class App extends React.Component {
         if(produto.tipo === "masculino") {
           return (
             <Produto
-              key={produto.tituloProduto}
+              key={produto.id}
               fotoProduto = {produto.fotoProduto}
               tituloProduto = {produto.tituloProduto}
               precoProduto = {produto.precoProduto}
@@ -518,11 +568,11 @@ class App extends React.Component {
         if(produto.tipo === "feminino") {
           return (
             <Produto
-              key={produto.tituloProduto}
+              key={produto.id}
               fotoProduto = {produto.fotoProduto}
               tituloProduto = {produto.tituloProduto}
               precoProduto = {produto.precoProduto}
-              colocaNoCarrinho ={() => this.noCarrinho(produto.tituloProduto)}
+              colocaNoCarrinho ={this.noCarrinho(produto.tituloProduto)}
             />
           )
         }
@@ -537,7 +587,7 @@ class App extends React.Component {
         relacaoProdutos = this.state.listaPesquisa.map((produto) => {
           return (
             <Produto
-                key={produto.tituloProduto}
+                key={produto.id}
                 fotoProduto = {produto.fotoProduto}
                 tituloProduto = {produto.tituloProduto}
                 precoProduto = {produto.precoProduto}
@@ -555,16 +605,30 @@ class App extends React.Component {
     }
     
     /* ====== CARRINHO DE COMPRAS: ====== */
+    // let componenteCarrinhoDeCompras
+    // if(this.state.carrinhoCompras.length !== 0) {  
+    //   componenteCarrinhoDeCompras = <CarrinhoDeCompras 
+    //     produtos = {this.state.carrinhoCompras}
+    //     excluirProduto = {this.onClickExcluirProduto}
+    //     valorTotal = {this.calculaValorTotal()}
+    //   />
+      
+    // }
     let componenteCarrinhoDeCompras
-    if(this.state.compra) {  
+    
+    if(this.state.carrinhoCompras.length !== 0) {
+      
       componenteCarrinhoDeCompras = <CarrinhoDeCompras 
         produtos = {this.state.carrinhoCompras}
         excluirProduto = {this.onClickExcluirProduto}
         valorTotal = {this.calculaValorTotal()}
       />
-      
+        
+         
     }
-
+      
+        
+    
 
     /* ====== FILTRO MAIOR E MENOR VALOR: ====== */
     
@@ -601,7 +665,7 @@ class App extends React.Component {
         relacaoProdutos = listaAtualParaComparacao.map((produto) => {
           return (
             <Produto
-                key={produto.tituloProduto}
+                key={produto.id}
                 fotoProduto = {produto.fotoProduto}
                 tituloProduto = {produto.tituloProduto}
                 precoProduto = {produto.precoProduto}
@@ -619,11 +683,11 @@ class App extends React.Component {
           relacaoProdutos = listaAtualParaComparacao.map((produto) => {
             return (
               <Produto
-                key={produto.tituloProduto}
+                key={produto.id}
                 fotoProduto = {produto.fotoProduto}
                 tituloProduto = {produto.tituloProduto}
                 precoProduto = {produto.precoProduto}
-                colocaNoCarrinho ={() => this.noCarrinho(produto.tituloProduto)}
+                colocaNoCarrinho ={this.noCarrinho(produto.tituloProduto)}
               />
             )
           })
@@ -633,7 +697,8 @@ class App extends React.Component {
 
     return (
       
-      <Principal id="carrinho">
+      
+      <Principal >
 
         <DivisaoPaginaPrincipal>
           <Cabecalho>

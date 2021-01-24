@@ -59,6 +59,7 @@ const PrecoProduto = styled.h5`
 `
 const DivisaoCompras = styled.div`
     height:400px;
+    
     overflow:auto; 
 `
 
@@ -90,16 +91,52 @@ const ValorQuantidade = styled.p`
 
 class CarrinhoDeCompras extends React.Component {
 
+    // state = {
+    //     carrinhoCompras: this.props.produtos,
+    //     valorTotal: this.props.valorTotal
+    // }
     
     onClickExcluirProduto = (nomeProduto) => {
         this.props.excluirProduto(nomeProduto)
     }
 
-    
+    // exibirItensCarrinho = (ListaCarrinhoCompras) => {
+    //     let componenteCarrinhoDeCompras
+    //     componenteCarrinhoDeCompras = ListaCarrinhoCompras.map((item) => {
+    //         return (
+    //             <DivisaoCarrinhoCompras key={item.id}>
+
+    //                 <DivisaoImagemProduto>
+    //                     <ImagemProduto src={item.fotoProduto} alt={'Imagem do produto'}/>
+    //                 </DivisaoImagemProduto>
+
+    //                 <DivisaoTituloProduto>
+    //                     <TituloProduto>{item.tituloProduto} </TituloProduto>
+    //                 </DivisaoTituloProduto>
+
+    //                 <DivisaoPrecoProduto>
+    //                     <PrecoProduto>R$ {item.precoProduto.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</PrecoProduto>
+    //                 </DivisaoPrecoProduto>
+
+    //                 <DivisaoQuantidade>
+    //                     <ValorQuantidade>{item.quantidade} </ValorQuantidade>
+    //                 </DivisaoQuantidade>
+
+    //                 <DivisaoIconeExcluir>
+    //                     <BotaoDeletarProduto src={botaoDeletarProduto} alt={'Imagem do icone excluir'} onClick={() => this.onClickExcluirProduto(item.tituloProduto)} />
+    //                 </DivisaoIconeExcluir>
+
+    //             </DivisaoCarrinhoCompras>
+
+    //         )
+    //     })
+    //     return componenteCarrinhoDeCompras
+    // }
 
     render() {
 
-        console.log("props do carrinho de compras: ", this.props)
+        console.log("props carrinho de compras", this.props)
+
 
         let componenteCarrinhoDeCompras
         componenteCarrinhoDeCompras = this.props.produtos.map((item) => {
@@ -131,11 +168,19 @@ class CarrinhoDeCompras extends React.Component {
             )
         })
         
-        return <DivisaoCompras>
+        return (  
+        <DivisaoCompras>
             <Titulo>Carrinho de Compras:</Titulo>
+
+            
             {componenteCarrinhoDeCompras}
+            
+
             <ValorTotal>Total: R$ {this.props.valorTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</ValorTotal>
+
         </DivisaoCompras>
+        )
+        
     }
 }
 
