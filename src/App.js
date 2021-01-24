@@ -333,23 +333,9 @@ class App extends React.Component {
     listaPesquisa: [], 
     pesquisa: false,
 
-    selectFiltro: "todos",
-    filtro: false
+    selectFiltro: "selecione",
+    filtro: true
     
-  }
-
-  onClickTodos = () => {
-    this.setState({categoriaAtual: "todos", pesquisa: false, filtro: false, selectFiltro: "selecione" })
-  }
-  
-  onClickFeminino = (event) => {
-    this.setState({categoriaAtual: "feminino", pesquisa: false, filtro: false, selectFiltro: "selecione"})
-    event.preventDefault()
-  }
-  
-  onClickMasculino = (event) => {
-    this.setState({categoriaAtual: "masculino", pesquisa: false, filtro: false, selectFiltro: "selecione"})
-    event.preventDefault()
   }
 
   onChangePesq = (event) => {
@@ -357,21 +343,15 @@ class App extends React.Component {
   }
 
   pesquisa = (valorInputPesquisa) => {
-    this.setState({ pesquisa: true })
+    console.log("caiu na função pesquisa.")
+
 
     const valorInputPesquisaMinusculo = valorInputPesquisa.toLowerCase()
-    
-    const retornoPesquisa = this.state.produtos.filter((produto) => {
-      let tituloProdutoMinusculo = produto.tituloProduto.toLowerCase()
-      
-      if(tituloProdutoMinusculo === valorInputPesquisaMinusculo) {
-        return true
-      } 
-      
-    })
+  
+    this.setState({ inputPesquisa:  valorInputPesquisaMinusculo})
+    this.setState({ pesquisa: true, filtro: false})
 
     
-    this.setState({ listaPesquisa: retornoPesquisa })
   }
 
   onClickCarrinhoDeCompras = () => {
@@ -407,10 +387,9 @@ class App extends React.Component {
       quantidade: 1,
       id: Date.now()
     }
-    console.log("compra", compra)
-
+    
     const produtoExistente = this.verificaProdutoJaExiste(compra, this.state.carrinhoCompras)
-    console.log("produtoExistente", produtoExistente)
+    
     if(produtoExistente.length !== 0) {
       const novaListaProdutos = this.state.carrinhoCompras.map((produto) => {
         if(produto.tituloProduto === compra.tituloProduto) {
@@ -451,7 +430,7 @@ class App extends React.Component {
   }
 
   onChangeSelectFiltro = (event) => {
-    this.setState({ selectFiltro: event.target.value, filtro: true})
+    this.setState({ selectFiltro: event.target.value, filtro: true, pesquisa: false})
   }
 
   calculaItemsCarrinhoCompras = () => {
@@ -462,158 +441,48 @@ class App extends React.Component {
     return produtosCarrinhoCompras
   }
 
-  // exibirCarrinhoDeCompras = () => {
-  //   console.log("caiu na funçcao exibirCarrinhoDeCompras")
-  //   let componenteCarrinhoDeCompras
-  //   if(this.state.carrinhoCompras.length !== 0) {  
-  //     componenteCarrinhoDeCompras = <CarrinhoDeCompras 
-  //       produtos = {this.state.carrinhoCompras}
-  //       excluirProduto = {this.onClickExcluirProduto}
-  //       valorTotal = {this.calculaValorTotal()}
-  //     />
-  //   } 
-
-  //   return componenteCarrinhoDeCompras
-  // }
-
-  // exibirCarrinhoDeCompras = () => {
-  //   let componenteCarrinhoDeCompras
-  //   if(this.state.carrinhoCompras.length !== 0) {  
-  //     componenteCarrinhoDeCompras = this.state.carrinhoCompras.map((item) => {
-  //       <CarrinhoDeCompras 
-  //         key={item.id}
-  //         fotoProduto = {item.fotoProduto}
-  //         tituloProduto = {item.tituloProduto}
-  //         precoProduto = {item.precoProduto.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-  //         quantidade = {item.quantidade}
-  //         excluirProduto = {this.onClickExcluirProduto}
-  //         valorTotal = {this.calculaValorTotal()}
-  //       />
-  //     }) 
-        
-  //   }
-   
-  //   return componenteCarrinhoDeCompras
-  // }
   
-  // onClickFiltrar = () => {
-  //   this.setState({filtro: true})
-  // }
-
-  
-  // noCarrinho = (addCar) => {
-  //   const adicinando = this.state.todosOsProdutos.map((produto) => {
-  //     if (produto.tituloProduto === addCar){
-  //       const addCarrinho = {
-  //         fotoProduto: produto.fotoProduto,
-  //         tituloProduto: produto.tituloProduto,
-  //         precoProduto: produto.precoProduto
-  //       }
-
-  //       const adicionandoProdutos = [addCarrinho, ...this.state.adicionadoAoCarrinho]
-  //       this.setState({adicionadoAoCarrinho:adicionandoProdutos})
-  //     }
-  //   })  
-      
-  //   console.log(this.state.adicionadoAoCarrinho)
-  //   alert("Adicionado, verifique no console.log")
-  // }
-
 
   render(){
-    console.log("lista carrinho de compras.", this.state.carrinhoCompras)
-
+    
     document.title = "Labecommerce"
 
-
-    /* ====== EXIBIR TODOS OS PRODUTOS OU MASCULINO OU FEMININO: ====== */
     let relacaoProdutos
-
-    // todos os produtos: 
-    // if(this.state.categoriaAtual === "todos") {
-    //   relacaoProdutos = this.state.produtos.map((produto) => {
-    //     return (
-    //       <Produto
-    //         key={produto.id}
-    //         fotoProduto = {produto.fotoProduto}
-    //         tituloProduto = {produto.tituloProduto}
-    //         precoProduto = {produto.precoProduto}
-    //         colocaNoCarrinho ={() => this.noCarrinho(produto.tituloProduto)}
-    //       />
-    //     )
-    //   })
-    // }
-    // masculinos: 
-    // if(this.state.categoriaAtual === "masculino") {
-    //   relacaoProdutos = this.state.produtos.map((produto) => {
-    //     if(produto.tipo === "masculino") {
-    //       return (
-    //         <Produto
-    //           key={produto.id}
-    //           fotoProduto = {produto.fotoProduto}
-    //           tituloProduto = {produto.tituloProduto}
-    //           precoProduto = {produto.precoProduto}
-    //           colocaNoCarrinho ={() => this.noCarrinho(produto.tituloProduto)}
-    //         />
-    //       )
-    //     }
-    //   })
-      
-      
-
-    // }
-    // femininos:
-    // if(this.state.categoriaAtual === "feminino") {
-    //   relacaoProdutos = this.state.produtos.map((produto) => {
-    //     if(produto.tipo === "feminino") {
-    //       return (
-    //         <Produto
-    //           key={produto.id}
-    //           fotoProduto = {produto.fotoProduto}
-    //           tituloProduto = {produto.tituloProduto}
-    //           precoProduto = {produto.precoProduto}
-    //           colocaNoCarrinho ={this.noCarrinho(produto.tituloProduto)}
-    //         />
-    //       )
-    //     }
-    //   })
-
-    // }
 
     /* ====== EXIBIR PESQUISA PELO NOME DO DO PRODUTO: ====== */
     if(this.state.pesquisa) {
-    
-      if(this.state.listaPesquisa !== []) {
-        relacaoProdutos = this.state.listaPesquisa.map((produto) => {
+      console.log("caiu aqui")
+      console.log("this.state.inputPesquisa", this.state.inputPesquisa)
+      const retornoPesquisa = this.state.produtos.filter((produto) => {
+        console.log("produto", produto)
+        console.log("produto.tituloProduto.toLowerCase()", produto.tituloProduto.toLowerCase())
+        if(this.state.inputPesquisa === produto.tituloProduto.toLowerCase()) {
+          return true
+        }
+        return false
+      })
+      console.log("retornoPesquisa", retornoPesquisa)
+      if(retornoPesquisa.length !== 0) {
+        console.log("caiu aqui depois do retorno pesquisa.")
+        relacaoProdutos = retornoPesquisa.map((produto) => {
           return (
             <Produto
-                key={produto.id}
-                fotoProduto = {produto.fotoProduto}
-                tituloProduto = {produto.tituloProduto}
-                precoProduto = {produto.precoProduto}
-                colocaNoCarrinho ={() => this.noCarrinho(produto.tituloProduto)}
-              />
+              key={produto.id}
+              fotoProduto = {produto.fotoProduto}
+              tituloProduto = {produto.tituloProduto}
+              precoProduto = {produto.precoProduto}
+              colocaNoCarrinho ={() => this.noCarrinho(produto.tituloProduto)}
+            />
           )
         })
-      }
-
-      // Caso pesquisa não retorne nenhum resultado:
-      if(this.state.listaPesquisa.length === 0) {
+      } else {
         relacaoProdutos = <MensagemNaoEncontrado>Infelizmente, produto {this.state.inputPesquisa} não foi encontrado.</MensagemNaoEncontrado>
       }
       
     }
+
     
     /* ====== CARRINHO DE COMPRAS: ====== */
-    // let componenteCarrinhoDeCompras
-    // if(this.state.carrinhoCompras.length !== 0) {  
-    //   componenteCarrinhoDeCompras = <CarrinhoDeCompras 
-    //     produtos = {this.state.carrinhoCompras}
-    //     excluirProduto = {this.onClickExcluirProduto}
-    //     valorTotal = {this.calculaValorTotal()}
-    //   />
-      
-    // }
     let componenteCarrinhoDeCompras
     
     if(this.state.carrinhoCompras.length !== 0) {
@@ -633,28 +502,43 @@ class App extends React.Component {
     
 
     /* ================== FILTROS: ======================== */
-    if(this.state.selectFiltro === "menor") {
-      const lista = this.state.produtos.sort(function(a,b) {
-        return a.precoProduto - b.precoProduto
-      })
-      relacaoProdutos = lista.map((produto) => {
-        return (
-          <Produto
-              key={produto.id}
-              fotoProduto = {produto.fotoProduto}
-              tituloProduto = {produto.tituloProduto}
-              precoProduto = {produto.precoProduto}
-              colocaNoCarrinho ={() => this.noCarrinho(produto.tituloProduto)}
-            />
-        )
-      })
-    }
-    
-    if(this.state.selectFiltro === "maior") {
-      const lista = this.state.produtos.sort(function(a,b) {
-        return b.precoProduto - a.precoProduto
-      })
+    if(this.state.filtro) {
+      if(this.state.selectFiltro === "menor") {
+        const lista = this.state.produtos.sort(function(a,b) {
+          return a.precoProduto - b.precoProduto
+        })
         relacaoProdutos = lista.map((produto) => {
+          return (
+            <Produto
+                key={produto.id}
+                fotoProduto = {produto.fotoProduto}
+                tituloProduto = {produto.tituloProduto}
+                precoProduto = {produto.precoProduto}
+                colocaNoCarrinho ={() => this.noCarrinho(produto.tituloProduto)}
+              />
+          )
+        })
+      }
+      
+      if(this.state.selectFiltro === "maior") {
+        const lista = this.state.produtos.sort(function(a,b) {
+          return b.precoProduto - a.precoProduto
+        })
+          relacaoProdutos = lista.map((produto) => {
+            return (
+              <Produto
+                key={produto.id}
+                fotoProduto = {produto.fotoProduto}
+                tituloProduto = {produto.tituloProduto}
+                precoProduto = {produto.precoProduto}
+                colocaNoCarrinho ={() => this.noCarrinho(produto.tituloProduto)}
+              />
+            )
+          })
+      }
+  
+      if(this.state.selectFiltro === "todos" || this.state.selectFiltro === "selecione" ) {
+        relacaoProdutos = this.state.produtos.map((produto) => {
           return (
             <Produto
               key={produto.id}
@@ -665,56 +549,43 @@ class App extends React.Component {
             />
           )
         })
+      }
+  
+      if(this.state.selectFiltro === "masculino") {
+        relacaoProdutos = this.state.produtos.map((produto) => {
+          if(produto.tipo === "masculino") {
+            return (
+              <Produto
+                key={produto.id}
+                fotoProduto = {produto.fotoProduto}
+                tituloProduto = {produto.tituloProduto}
+                precoProduto = {produto.precoProduto}
+                colocaNoCarrinho ={() => this.noCarrinho(produto.tituloProduto)}
+              />
+            )
+          }
+          
+        })
+      }
+  
+      if(this.state.selectFiltro === "feminino") {
+        relacaoProdutos = this.state.produtos.map((produto) => {
+          if(produto.tipo === "feminino") {
+            return (
+              <Produto
+                key={produto.id}
+                fotoProduto = {produto.fotoProduto}
+                tituloProduto = {produto.tituloProduto}
+                precoProduto = {produto.precoProduto}
+                colocaNoCarrinho ={() => this.noCarrinho(produto.tituloProduto)}
+              />
+            )
+          }
+          
+        })
+      }
     }
-
-    if(this.state.selectFiltro === "todos") {
-      relacaoProdutos = this.state.produtos.map((produto) => {
-        return (
-          <Produto
-            key={produto.id}
-            fotoProduto = {produto.fotoProduto}
-            tituloProduto = {produto.tituloProduto}
-            precoProduto = {produto.precoProduto}
-            colocaNoCarrinho ={() => this.noCarrinho(produto.tituloProduto)}
-          />
-        )
-      })
-    }
-
-    if(this.state.selectFiltro === "masculino") {
-      relacaoProdutos = this.state.produtos.map((produto) => {
-        if(produto.tipo === "masculino") {
-          return (
-            <Produto
-              key={produto.id}
-              fotoProduto = {produto.fotoProduto}
-              tituloProduto = {produto.tituloProduto}
-              precoProduto = {produto.precoProduto}
-              colocaNoCarrinho ={() => this.noCarrinho(produto.tituloProduto)}
-            />
-          )
-        }
-        
-      })
-    }
-
-    if(this.state.selectFiltro === "feminino") {
-      relacaoProdutos = this.state.produtos.map((produto) => {
-        if(produto.tipo === "feminino") {
-          return (
-            <Produto
-              key={produto.id}
-              fotoProduto = {produto.fotoProduto}
-              tituloProduto = {produto.tituloProduto}
-              precoProduto = {produto.precoProduto}
-              colocaNoCarrinho ={() => this.noCarrinho(produto.tituloProduto)}
-            />
-          )
-        }
-        
-      })
-    }
-  // }
+    
     
 
     return (
@@ -763,7 +634,7 @@ class App extends React.Component {
                 <Inputpesquisa type="text" value={this.state.inputPesquisa} onChange={this.onChangePesq} placeholder="Digite o nome do produto"/>
               </LabelPesquisa>
               
-              <BotaoPesquisar type="submit" value="Pesquisar" onClick={() => this.pesquisa(this.state.inputPesquisa)} />
+              <BotaoPesquisar type="button" value="Pesquisar" onClick={() => this.pesquisa(this.state.inputPesquisa)} />
 
             </DivPesquisa>
 
@@ -774,7 +645,8 @@ class App extends React.Component {
             
             <DivFiltro>
               <SelectFiltro onChange={this.onChangeSelectFiltro} value={this.state.selectFiltro}>
-                <OptionFiltro value="todos">Todos:</OptionFiltro>
+                <OptionFiltro value="selecione">Selecione um Filtro:</OptionFiltro>
+                <OptionFiltro value="todos">Todos Produtos</OptionFiltro>
                 <OptionFiltro value="menor">Menor preço para Maior preço</OptionFiltro>
                 <OptionFiltro value="maior">Maior preço para Menor preço</OptionFiltro>
                 <OptionFiltro value="masculino">Masculino</OptionFiltro>
