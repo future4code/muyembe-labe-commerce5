@@ -333,7 +333,7 @@ class App extends React.Component {
     listaPesquisa: [], 
     pesquisa: false,
 
-    selectFiltro: "selecione",
+    selectFiltro: "todos",
     filtro: false
     
   }
@@ -530,55 +530,55 @@ class App extends React.Component {
     let relacaoProdutos
 
     // todos os produtos: 
-    if(this.state.categoriaAtual === "todos") {
-      relacaoProdutos = this.state.produtos.map((produto) => {
-        return (
-          <Produto
-            key={produto.id}
-            fotoProduto = {produto.fotoProduto}
-            tituloProduto = {produto.tituloProduto}
-            precoProduto = {produto.precoProduto}
-            colocaNoCarrinho ={() => this.noCarrinho(produto.tituloProduto)}
-          />
-        )
-      })
-    }
+    // if(this.state.categoriaAtual === "todos") {
+    //   relacaoProdutos = this.state.produtos.map((produto) => {
+    //     return (
+    //       <Produto
+    //         key={produto.id}
+    //         fotoProduto = {produto.fotoProduto}
+    //         tituloProduto = {produto.tituloProduto}
+    //         precoProduto = {produto.precoProduto}
+    //         colocaNoCarrinho ={() => this.noCarrinho(produto.tituloProduto)}
+    //       />
+    //     )
+    //   })
+    // }
     // masculinos: 
-    if(this.state.categoriaAtual === "masculino") {
-      relacaoProdutos = this.state.produtos.map((produto) => {
-        if(produto.tipo === "masculino") {
-          return (
-            <Produto
-              key={produto.id}
-              fotoProduto = {produto.fotoProduto}
-              tituloProduto = {produto.tituloProduto}
-              precoProduto = {produto.precoProduto}
-              colocaNoCarrinho ={() => this.noCarrinho(produto.tituloProduto)}
-            />
-          )
-        }
-      })
+    // if(this.state.categoriaAtual === "masculino") {
+    //   relacaoProdutos = this.state.produtos.map((produto) => {
+    //     if(produto.tipo === "masculino") {
+    //       return (
+    //         <Produto
+    //           key={produto.id}
+    //           fotoProduto = {produto.fotoProduto}
+    //           tituloProduto = {produto.tituloProduto}
+    //           precoProduto = {produto.precoProduto}
+    //           colocaNoCarrinho ={() => this.noCarrinho(produto.tituloProduto)}
+    //         />
+    //       )
+    //     }
+    //   })
       
       
 
-    }
+    // }
     // femininos:
-    if(this.state.categoriaAtual === "feminino") {
-      relacaoProdutos = this.state.produtos.map((produto) => {
-        if(produto.tipo === "feminino") {
-          return (
-            <Produto
-              key={produto.id}
-              fotoProduto = {produto.fotoProduto}
-              tituloProduto = {produto.tituloProduto}
-              precoProduto = {produto.precoProduto}
-              colocaNoCarrinho ={this.noCarrinho(produto.tituloProduto)}
-            />
-          )
-        }
-      })
+    // if(this.state.categoriaAtual === "feminino") {
+    //   relacaoProdutos = this.state.produtos.map((produto) => {
+    //     if(produto.tipo === "feminino") {
+    //       return (
+    //         <Produto
+    //           key={produto.id}
+    //           fotoProduto = {produto.fotoProduto}
+    //           tituloProduto = {produto.tituloProduto}
+    //           precoProduto = {produto.precoProduto}
+    //           colocaNoCarrinho ={this.noCarrinho(produto.tituloProduto)}
+    //         />
+    //       )
+    //     }
+    //   })
 
-    }
+    // }
 
     /* ====== EXIBIR PESQUISA PELO NOME DO DO PRODUTO: ====== */
     if(this.state.pesquisa) {
@@ -630,69 +630,91 @@ class App extends React.Component {
         
     
 
-    /* ====== FILTRO MAIOR E MENOR VALOR: ====== */
     
-    let listaAtualParaComparacao
-    if(this.state.filtro) {
-      
-      switch (this.state.categoriaAtual) {
-        case "todos" :
-          listaAtualParaComparacao = this.state.produtos
-          break
-        case "masculino" :
-          listaAtualParaComparacao = this.state.produtos.filter((produto) => {
-            if(produto.tipo === "masculino") {
-              return true
-            }
-          })
-          break
-        case "feminino" :
-          listaAtualParaComparacao = this.state.produtos.filter((produto) => {
-            if(produto.tipo === "feminino") {
-              return true
-            }
-          })
-          break
-      }
-      // if(this.state.categoriaAtual === "todos") {
-      //   listaAtualParaComparacao = this.state.produtos
-      // }
-      if(this.state.selectFiltro === "menor") {
-        // listaMenorParaMaior = this.state.produtos
-        listaAtualParaComparacao.sort(function(a,b) {
-          return a.precoProduto - b.precoProduto
-        })
-        relacaoProdutos = listaAtualParaComparacao.map((produto) => {
+
+    /* ================== FILTROS: ======================== */
+    if(this.state.selectFiltro === "menor") {
+      const lista = this.state.produtos.sort(function(a,b) {
+        return a.precoProduto - b.precoProduto
+      })
+      relacaoProdutos = lista.map((produto) => {
+        return (
+          <Produto
+              key={produto.id}
+              fotoProduto = {produto.fotoProduto}
+              tituloProduto = {produto.tituloProduto}
+              precoProduto = {produto.precoProduto}
+              colocaNoCarrinho ={() => this.noCarrinho(produto.tituloProduto)}
+            />
+        )
+      })
+    }
+    
+    if(this.state.selectFiltro === "maior") {
+      const lista = this.state.produtos.sort(function(a,b) {
+        return b.precoProduto - a.precoProduto
+      })
+        relacaoProdutos = lista.map((produto) => {
           return (
             <Produto
-                key={produto.id}
-                fotoProduto = {produto.fotoProduto}
-                tituloProduto = {produto.tituloProduto}
-                precoProduto = {produto.precoProduto}
-                colocaNoCarrinho ={() => this.noCarrinho(produto.tituloProduto)}
-              />
+              key={produto.id}
+              fotoProduto = {produto.fotoProduto}
+              tituloProduto = {produto.tituloProduto}
+              precoProduto = {produto.precoProduto}
+              colocaNoCarrinho ={() => this.noCarrinho(produto.tituloProduto)}
+            />
           )
         })
-      }
-      
-      if(this.state.selectFiltro === "maior") {
-        // listaMaiorParaMenor = this.state.produtos
-        listaAtualParaComparacao.sort(function(a,b) {
-          return b.precoProduto - a.precoProduto
-        })
-          relacaoProdutos = listaAtualParaComparacao.map((produto) => {
-            return (
-              <Produto
-                key={produto.id}
-                fotoProduto = {produto.fotoProduto}
-                tituloProduto = {produto.tituloProduto}
-                precoProduto = {produto.precoProduto}
-                colocaNoCarrinho ={this.noCarrinho(produto.tituloProduto)}
-              />
-            )
-          })
-      }
     }
+
+    if(this.state.selectFiltro === "todos") {
+      relacaoProdutos = this.state.produtos.map((produto) => {
+        return (
+          <Produto
+            key={produto.id}
+            fotoProduto = {produto.fotoProduto}
+            tituloProduto = {produto.tituloProduto}
+            precoProduto = {produto.precoProduto}
+            colocaNoCarrinho ={() => this.noCarrinho(produto.tituloProduto)}
+          />
+        )
+      })
+    }
+
+    if(this.state.selectFiltro === "masculino") {
+      relacaoProdutos = this.state.produtos.map((produto) => {
+        if(produto.tipo === "masculino") {
+          return (
+            <Produto
+              key={produto.id}
+              fotoProduto = {produto.fotoProduto}
+              tituloProduto = {produto.tituloProduto}
+              precoProduto = {produto.precoProduto}
+              colocaNoCarrinho ={() => this.noCarrinho(produto.tituloProduto)}
+            />
+          )
+        }
+        
+      })
+    }
+
+    if(this.state.selectFiltro === "feminino") {
+      relacaoProdutos = this.state.produtos.map((produto) => {
+        if(produto.tipo === "feminino") {
+          return (
+            <Produto
+              key={produto.id}
+              fotoProduto = {produto.fotoProduto}
+              tituloProduto = {produto.tituloProduto}
+              precoProduto = {produto.precoProduto}
+              colocaNoCarrinho ={() => this.noCarrinho(produto.tituloProduto)}
+            />
+          )
+        }
+        
+      })
+    }
+  // }
     
 
     return (
@@ -745,16 +767,18 @@ class App extends React.Component {
 
             </DivPesquisa>
 
-            <DivisaoCategoria>
+            {/* <DivisaoCategoria>
               <BotaoCategoria onClick={this.onClickFeminino}>Feminino</BotaoCategoria>
               <BotaoCategoria onClick={this.onClickMasculino}>Masculino</BotaoCategoria>
-            </DivisaoCategoria>
+            </DivisaoCategoria> */}
             
             <DivFiltro>
               <SelectFiltro onChange={this.onChangeSelectFiltro} value={this.state.selectFiltro}>
-                <OptionFiltro value="selecione">Ordem de exibição:</OptionFiltro>
+                <OptionFiltro value="todos">Todos:</OptionFiltro>
                 <OptionFiltro value="menor">Menor preço para Maior preço</OptionFiltro>
                 <OptionFiltro value="maior">Maior preço para Menor preço</OptionFiltro>
+                <OptionFiltro value="masculino">Masculino</OptionFiltro>
+                <OptionFiltro value="feminino">Feminino</OptionFiltro>
               </SelectFiltro>
 
             </DivFiltro>
