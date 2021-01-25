@@ -217,91 +217,106 @@ class App extends React.Component {
             fotoProduto:camisa1,
             tituloProduto:"Hexagono Laranja",
             precoProduto: 35.00,
-            tipo:"masculino"
+            tipo:"masculino",
+            id: 1
         },
         {
             fotoProduto:camisa2,
             tituloProduto:"Foguete",
             precoProduto: 40.00,
-            tipo:"masculino"
+            tipo:"masculino",
+            id: 2
         },
         {
             fotoProduto:camisa3,
             tituloProduto:"Dominador",
             precoProduto: 37.00,
-            tipo:"masculino"
+            tipo:"masculino",
+            id: 3
         },
         {
             fotoProduto:camisa4,
             tituloProduto:"Wakanda",
             precoProduto: 32.00,
-            tipo:"masculino"
+            tipo:"masculino",
+            id: 4
         },
         {
             fotoProduto:camisa5,
             tituloProduto:"Astro Music",
             precoProduto: 38.00,
-            tipo:"masculino"
+            tipo:"masculino",
+            id: 5
         },
         {
             fotoProduto:camisa6,
             tituloProduto:"Descansando",
             precoProduto: 37.00,
-            tipo:"masculino"
+            tipo:"masculino",
+            id: 6
         },
         {
             fotoProduto:camisa7,
             tituloProduto:"Bolhas",
             precoProduto: 39.00,
-            tipo:"masculino"
+            tipo:"masculino",
+            id: 7
         },
         {
             fotoProduto:camisa8,
             tituloProduto:"Astrodev",
             precoProduto: 41.00,
-            tipo:"masculino"
+            tipo:"masculino",
+            id: 8
         },
         {
             fotoProduto:camisa9,
             tituloProduto:"Buraco Negro",
             precoProduto: 39.00,
-            tipo:"masculino"
+            tipo:"masculino",
+            id: 9
         },
         {
             fotoProduto:camisaF1,
             tituloProduto:"Foguete Feminina",
             precoProduto: 31.00,
-            tipo:"feminino"
+            tipo:"feminino",
+            id: 10
         },
         {
             fotoProduto:camisaF2,
             tituloProduto:"Dominadora",
             precoProduto: 30.00,
-            tipo:"feminino"
+            tipo:"feminino",
+            id: 11
         },
         {
             fotoProduto:camisaF3,
             tituloProduto:"Wakanda Feminina",
             precoProduto: 32.00,
-            tipo:"feminino"
+            tipo:"feminino",
+            id: 12
         },
         {
             fotoProduto:camisaF4,
             tituloProduto:"Music",
             precoProduto: 37.00,
-            tipo:"feminino"
+            tipo:"feminino",
+            id: 13
         },
         {
             fotoProduto:camisaF5,
             tituloProduto:"Descansando Feminina",
             precoProduto: 31.00,
-            tipo:"feminino"
+            tipo:"feminino",
+            id: 14
         },
         {
             fotoProduto:camisaF6,
             tituloProduto:"Bolhas Feminina",
             precoProduto: 33.00,
-            tipo:"feminino"
+            tipo:"feminino",
+            id: 15
         }
     ],
 
@@ -319,22 +334,8 @@ class App extends React.Component {
     pesquisa: false,
 
     selectFiltro: "selecione",
-    filtro: false
+    filtro: true
     
-  }
-
-  onClickTodos = () => {
-    this.setState({categoriaAtual: "todos", pesquisa: false, filtro: false, selectFiltro: "selecione" })
-  }
-  
-  onClickFeminino = (event) => {
-    this.setState({categoriaAtual: "feminino", pesquisa: false, filtro: false, selectFiltro: "selecione"})
-    event.preventDefault()
-  }
-  
-  onClickMasculino = (event) => {
-    this.setState({categoriaAtual: "masculino", pesquisa: false, filtro: false, selectFiltro: "selecione"})
-    event.preventDefault()
   }
 
   onChangePesq = (event) => {
@@ -342,30 +343,36 @@ class App extends React.Component {
   }
 
   pesquisa = (valorInputPesquisa) => {
-    this.setState({ pesquisa: true })
+    console.log("caiu na função pesquisa.")
+
 
     const valorInputPesquisaMinusculo = valorInputPesquisa.toLowerCase()
-    
-    const retornoPesquisa = this.state.produtos.filter((produto) => {
-      let tituloProdutoMinusculo = produto.tituloProduto.toLowerCase()
-      
-      if(tituloProdutoMinusculo === valorInputPesquisaMinusculo) {
-        return true
-      } 
-      
-    })
+  
+    this.setState({ inputPesquisa:  valorInputPesquisaMinusculo})
+    this.setState({ pesquisa: true, filtro: false})
 
     
-    this.setState({ listaPesquisa: retornoPesquisa })
   }
 
   onClickCarrinhoDeCompras = () => {
     this.setState({ compra: !this.state.compra})
    
   }
+
+  verificaProdutoJaExiste = (novoProduto, listaAtualCarrinhoCompras) => {
+    
+    const resposta = listaAtualCarrinhoCompras.filter((item) => {
+      if(item.tituloProduto === novoProduto.tituloProduto) {
+        return true
+      }
+      return false
+    })
+
+    return  resposta
+  }
   
   noCarrinho = (nomeProduto) => {
-    this.setState({compra:true})
+    // this.setState({compra:true})
     const novaCompra = this.state.produtos.filter((produto) => {
       if(produto.tituloProduto === nomeProduto) {
         return true
@@ -376,13 +383,33 @@ class App extends React.Component {
       fotoProduto: novaCompra[0].fotoProduto,
       tituloProduto: novaCompra[0].tituloProduto,
       precoProduto: novaCompra[0].precoProduto,
-      tipo: novaCompra[0].tipo
+      tipo: novaCompra[0].tipo,
+      quantidade: 1,
+      id: Date.now()
+    }
+    
+    const produtoExistente = this.verificaProdutoJaExiste(compra, this.state.carrinhoCompras)
+    
+    if(produtoExistente.length !== 0) {
+      const novaListaProdutos = this.state.carrinhoCompras.map((produto) => {
+        if(produto.tituloProduto === compra.tituloProduto) {
+          const novaCompra = {
+            ...produto,
+            quantidade: produto.quantidade + 1,
+            precoProduto: produto.precoProduto + produto.precoProduto
+          }
+          return novaCompra
+        } else {
+          return produto
+        }
+      })
+      this.setState({carrinhoCompras: novaListaProdutos })
+    } else {
+      const novasCompras = [compra, ...this.state.carrinhoCompras]
+      this.setState({ carrinhoCompras:  novasCompras})
     }
 
     
-
-    const novasCompras = [compra, ...this.state.carrinhoCompras]
-    this.setState({ carrinhoCompras:  novasCompras})
 
   }
   
@@ -403,164 +430,87 @@ class App extends React.Component {
   }
 
   onChangeSelectFiltro = (event) => {
-    this.setState({ selectFiltro: event.target.value, filtro: true})
+    this.setState({ selectFiltro: event.target.value, filtro: true, pesquisa: false})
   }
 
-  // onClickFiltrar = () => {
-  //   this.setState({filtro: true})
-  // }
+  calculaItemsCarrinhoCompras = () => {
+    let produtosCarrinhoCompras = 0
+    this.state.carrinhoCompras.forEach((item) => {
+      produtosCarrinhoCompras = produtosCarrinhoCompras + item.quantidade
+    })
+    return produtosCarrinhoCompras
+  }
 
   
-  // noCarrinho = (addCar) => {
-  //   const adicinando = this.state.todosOsProdutos.map((produto) => {
-  //     if (produto.tituloProduto === addCar){
-  //       const addCarrinho = {
-  //         fotoProduto: produto.fotoProduto,
-  //         tituloProduto: produto.tituloProduto,
-  //         precoProduto: produto.precoProduto
-  //       }
-
-  //       const adicionandoProdutos = [addCarrinho, ...this.state.adicionadoAoCarrinho]
-  //       this.setState({adicionadoAoCarrinho:adicionandoProdutos})
-  //     }
-  //   })  
-      
-  //   console.log(this.state.adicionadoAoCarrinho)
-  //   alert("Adicionado, verifique no console.log")
-  // }
-
 
   render(){
-
+    
     document.title = "Labecommerce"
 
-
-    /* ====== EXIBIR TODOS OS PRODUTOS OU MASCULINO OU FEMININO: ====== */
     let relacaoProdutos
-
-    // todos os produtos: 
-    if(this.state.categoriaAtual === "todos") {
-      relacaoProdutos = this.state.produtos.map((produto) => {
-        return (
-          <Produto
-            key={produto.tituloProduto}
-            fotoProduto = {produto.fotoProduto}
-            tituloProduto = {produto.tituloProduto}
-            precoProduto = {produto.precoProduto}
-            colocaNoCarrinho ={() => this.noCarrinho(produto.tituloProduto)}
-          />
-        )
-      })
-    }
-    // masculinos: 
-    if(this.state.categoriaAtual === "masculino") {
-      relacaoProdutos = this.state.produtos.map((produto) => {
-        if(produto.tipo === "masculino") {
-          return (
-            <Produto
-              key={produto.tituloProduto}
-              fotoProduto = {produto.fotoProduto}
-              tituloProduto = {produto.tituloProduto}
-              precoProduto = {produto.precoProduto}
-              colocaNoCarrinho ={() => this.noCarrinho(produto.tituloProduto)}
-            />
-          )
-        }
-      })
-      
-      
-
-    }
-    // femininos:
-    if(this.state.categoriaAtual === "feminino") {
-      relacaoProdutos = this.state.produtos.map((produto) => {
-        if(produto.tipo === "feminino") {
-          return (
-            <Produto
-              key={produto.tituloProduto}
-              fotoProduto = {produto.fotoProduto}
-              tituloProduto = {produto.tituloProduto}
-              precoProduto = {produto.precoProduto}
-              colocaNoCarrinho ={() => this.noCarrinho(produto.tituloProduto)}
-            />
-          )
-        }
-      })
-
-    }
 
     /* ====== EXIBIR PESQUISA PELO NOME DO DO PRODUTO: ====== */
     if(this.state.pesquisa) {
-    
-      if(this.state.listaPesquisa !== []) {
-        relacaoProdutos = this.state.listaPesquisa.map((produto) => {
+      console.log("caiu aqui")
+      console.log("this.state.inputPesquisa", this.state.inputPesquisa)
+      const retornoPesquisa = this.state.produtos.filter((produto) => {
+        console.log("produto", produto)
+        console.log("produto.tituloProduto.toLowerCase()", produto.tituloProduto.toLowerCase())
+        if(this.state.inputPesquisa === produto.tituloProduto.toLowerCase()) {
+          return true
+        }
+        return false
+      })
+      console.log("retornoPesquisa", retornoPesquisa)
+      if(retornoPesquisa.length !== 0) {
+        console.log("caiu aqui depois do retorno pesquisa.")
+        relacaoProdutos = retornoPesquisa.map((produto) => {
           return (
             <Produto
-                key={produto.tituloProduto}
-                fotoProduto = {produto.fotoProduto}
-                tituloProduto = {produto.tituloProduto}
-                precoProduto = {produto.precoProduto}
-                colocaNoCarrinho ={() => this.noCarrinho(produto.tituloProduto)}
-              />
+              key={produto.id}
+              fotoProduto = {produto.fotoProduto}
+              tituloProduto = {produto.tituloProduto}
+              precoProduto = {produto.precoProduto}
+              colocaNoCarrinho ={() => this.noCarrinho(produto.tituloProduto)}
+            />
           )
         })
-      }
-
-      // Caso pesquisa não retorne nenhum resultado:
-      if(this.state.listaPesquisa.length === 0) {
+      } else {
         relacaoProdutos = <MensagemNaoEncontrado>Infelizmente, produto {this.state.inputPesquisa} não foi encontrado.</MensagemNaoEncontrado>
       }
       
     }
+
     
     /* ====== CARRINHO DE COMPRAS: ====== */
     let componenteCarrinhoDeCompras
-    if(this.state.compra) {  
+    
+    if(this.state.carrinhoCompras.length !== 0) {
+      
       componenteCarrinhoDeCompras = <CarrinhoDeCompras 
         produtos = {this.state.carrinhoCompras}
         excluirProduto = {this.onClickExcluirProduto}
         valorTotal = {this.calculaValorTotal()}
       />
-      
+        
+         
     }
-
-
-    /* ====== FILTRO MAIOR E MENOR VALOR: ====== */
-    
-    let listaAtualParaComparacao
-    if(this.state.filtro) {
       
-      switch (this.state.categoriaAtual) {
-        case "todos" :
-          listaAtualParaComparacao = this.state.produtos
-          break
-        case "masculino" :
-          listaAtualParaComparacao = this.state.produtos.filter((produto) => {
-            if(produto.tipo === "masculino") {
-              return true
-            }
-          })
-          break
-        case "feminino" :
-          listaAtualParaComparacao = this.state.produtos.filter((produto) => {
-            if(produto.tipo === "feminino") {
-              return true
-            }
-          })
-          break
-      }
-      // if(this.state.categoriaAtual === "todos") {
-      //   listaAtualParaComparacao = this.state.produtos
-      // }
+        
+    
+
+    
+
+    /* ================== FILTROS: ======================== */
+    if(this.state.filtro) {
       if(this.state.selectFiltro === "menor") {
-        // listaMenorParaMaior = this.state.produtos
-        listaAtualParaComparacao.sort(function(a,b) {
+        const lista = this.state.produtos.sort(function(a,b) {
           return a.precoProduto - b.precoProduto
         })
-        relacaoProdutos = listaAtualParaComparacao.map((produto) => {
+        relacaoProdutos = lista.map((produto) => {
           return (
             <Produto
-                key={produto.tituloProduto}
+                key={produto.id}
                 fotoProduto = {produto.fotoProduto}
                 tituloProduto = {produto.tituloProduto}
                 precoProduto = {produto.precoProduto}
@@ -571,14 +521,13 @@ class App extends React.Component {
       }
       
       if(this.state.selectFiltro === "maior") {
-        // listaMaiorParaMenor = this.state.produtos
-        listaAtualParaComparacao.sort(function(a,b) {
+        const lista = this.state.produtos.sort(function(a,b) {
           return b.precoProduto - a.precoProduto
         })
-          relacaoProdutos = listaAtualParaComparacao.map((produto) => {
+          relacaoProdutos = lista.map((produto) => {
             return (
               <Produto
-                key={produto.tituloProduto}
+                key={produto.id}
                 fotoProduto = {produto.fotoProduto}
                 tituloProduto = {produto.tituloProduto}
                 precoProduto = {produto.precoProduto}
@@ -587,12 +536,62 @@ class App extends React.Component {
             )
           })
       }
+  
+      if(this.state.selectFiltro === "todos" || this.state.selectFiltro === "selecione" ) {
+        relacaoProdutos = this.state.produtos.map((produto) => {
+          return (
+            <Produto
+              key={produto.id}
+              fotoProduto = {produto.fotoProduto}
+              tituloProduto = {produto.tituloProduto}
+              precoProduto = {produto.precoProduto}
+              colocaNoCarrinho ={() => this.noCarrinho(produto.tituloProduto)}
+            />
+          )
+        })
+      }
+  
+      if(this.state.selectFiltro === "masculino") {
+        relacaoProdutos = this.state.produtos.map((produto) => {
+          if(produto.tipo === "masculino") {
+            return (
+              <Produto
+                key={produto.id}
+                fotoProduto = {produto.fotoProduto}
+                tituloProduto = {produto.tituloProduto}
+                precoProduto = {produto.precoProduto}
+                colocaNoCarrinho ={() => this.noCarrinho(produto.tituloProduto)}
+              />
+            )
+          }
+          
+        })
+      }
+  
+      if(this.state.selectFiltro === "feminino") {
+        relacaoProdutos = this.state.produtos.map((produto) => {
+          if(produto.tipo === "feminino") {
+            return (
+              <Produto
+                key={produto.id}
+                fotoProduto = {produto.fotoProduto}
+                tituloProduto = {produto.tituloProduto}
+                precoProduto = {produto.precoProduto}
+                colocaNoCarrinho ={() => this.noCarrinho(produto.tituloProduto)}
+              />
+            )
+          }
+          
+        })
+      }
     }
+    
     
 
     return (
       
-      <Principal id="carrinho">
+      
+      <Principal >
 
         <DivisaoPaginaPrincipal>
           <Cabecalho>
@@ -602,7 +601,7 @@ class App extends React.Component {
               <IconeComContador
                 icone={iconeCarrinhoCompras}
                 onClickIcone= {this.onClickCarrinhoDeCompras}
-                valorContador={this.state.carrinhoCompras.length}
+                valorContador={this.calculaItemsCarrinhoCompras()}
               />
             </DivisaoCarrinhoDeCompras>
             
@@ -635,20 +634,23 @@ class App extends React.Component {
                 <Inputpesquisa type="text" value={this.state.inputPesquisa} onChange={this.onChangePesq} placeholder="Digite o nome do produto"/>
               </LabelPesquisa>
               
-              <BotaoPesquisar type="submit" value="Pesquisar" onClick={() => this.pesquisa(this.state.inputPesquisa)} />
+              <BotaoPesquisar type="button" value="Pesquisar" onClick={() => this.pesquisa(this.state.inputPesquisa)} />
 
             </DivPesquisa>
 
-            <DivisaoCategoria>
+            {/* <DivisaoCategoria>
               <BotaoCategoria onClick={this.onClickFeminino}>Feminino</BotaoCategoria>
               <BotaoCategoria onClick={this.onClickMasculino}>Masculino</BotaoCategoria>
-            </DivisaoCategoria>
+            </DivisaoCategoria> */}
             
             <DivFiltro>
               <SelectFiltro onChange={this.onChangeSelectFiltro} value={this.state.selectFiltro}>
-                <OptionFiltro value="selecione">Ordem de exibição:</OptionFiltro>
+                <OptionFiltro value="selecione">Selecione um Filtro:</OptionFiltro>
+                <OptionFiltro value="todos">Todos Produtos</OptionFiltro>
                 <OptionFiltro value="menor">Menor preço para Maior preço</OptionFiltro>
                 <OptionFiltro value="maior">Maior preço para Menor preço</OptionFiltro>
+                <OptionFiltro value="masculino">Masculino</OptionFiltro>
+                <OptionFiltro value="feminino">Feminino</OptionFiltro>
               </SelectFiltro>
 
             </DivFiltro>
